@@ -5,7 +5,6 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { HabitsModule } from './habits/habits.module';
 import { CategoriesModule } from './categories/categories.module';
-import { CompletionsModule } from './completions/completions.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -14,7 +13,6 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     HabitsModule,
     CategoriesModule,
-    CompletionsModule,
     AuthModule,
   ],
   controllers: [AppController],

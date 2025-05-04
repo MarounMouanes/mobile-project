@@ -189,27 +189,6 @@ export class AuthService {
       const today = new Date();
       const yesterday = new Date(today);
       yesterday.setDate(yesterday.getDate() - 1);
-
-      await this.prisma.completion.create({
-        data: {
-          habitId: drinkWaterHabit.id,
-          date: today,
-        },
-      });
-
-      await this.prisma.completion.create({
-        data: {
-          habitId: drinkWaterHabit.id,
-          date: yesterday,
-        },
-      });
-
-      await this.prisma.completion.create({
-        data: {
-          habitId: exerciseHabit.id,
-          date: today,
-        },
-      });
       
       console.log(`Seed data created successfully for user ${userId}`);
     } catch (error) {
