@@ -1,12 +1,12 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, ParseIntPipe, UseGuards, Request } from '@nestjs/common';
 import { HabitsService } from './habits.service';
+import { AuthGuard } from '../auth/auth.guard';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 class CreateHabitDto {
   title: string;
   description?: string;
   frequency: string;
-  userId: number;
   categoryId: number;
 }
 
@@ -19,47 +19,46 @@ class UpdateHabitDto {
 
 @ApiTags('habits')
 @Controller('habits')
+@UseGuards(AuthGuard)
 export class HabitsController {
   constructor(private readonly habitsService: HabitsService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Get all habits or filter by user' })
-  @ApiResponse({ status: 200, description: 'Returns all habits or filtered by user' })
-  async findAll(@Query('userId') userId?: string) {
-    if (userId) {
-      return this.habitsService.findByUser(parseInt(userId));
-    }
-    return this.habitsService.findAll();
+  @ApiOperation({ summary: 'Get all habits for the authenticated user' })
+  @ApiResponse({ status: 200, description: 'Returns all habits for the user' })
+  async findAll(@Request() req) {
+    return this.habitsService.findAll(req.user.id);
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a habit by ID' })
+  @ApiOperation({ summary: 'Get a habit by ID for the authenticated user' })
   @ApiResponse({ status: 200, description: 'Returns a habit by ID' })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.habitsService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number, @Request() req) {
+    return this.habitsService.findOne(id, req.user.id);
   }
 
   @Post()
-  @ApiOperation({ summary: 'Create a new habit' })
+  @ApiOperation({ summary: 'Create a new habit for the authenticated user' })
   @ApiResponse({ status: 201, description: 'Habit created successfully' })
-  async create(@Body() createHabitDto: CreateHabitDto) {
-    return this.habitsService.create(createHabitDto);
+  async create(@Body() createHabitDto: CreateHabitDto, @Request() req) {
+    return this.habitsService.create(req.user.id, createHabitDto);
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Update a habit' })
+  @ApiOperation({ summary: 'Update a habit for the authenticated user' })
   @ApiResponse({ status: 200, description: 'Habit updated successfully' })
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateHabitDto: UpdateHabitDto,
+    @Request() req
   ) {
-    return this.habitsService.update(id, updateHabitDto);
+    return this.habitsService.update(id, req.user.id, updateHabitDto);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete a habit' })
+  @ApiOperation({ summary: 'Delete a habit for the authenticated user' })
   @ApiResponse({ status: 200, description: 'Habit deleted successfully' })
-  async delete(@Param('id', ParseIntPipe) id: number) {
-    return this.habitsService.delete(id);
+  async delete(@Param('id', ParseIntPipe) id: number, @Request() req) {
+    return this.habitsService.delete(id, req.user.id);
   }
 }

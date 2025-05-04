@@ -23,27 +23,36 @@ model Product {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  habits    Habit[]
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  email       String    @unique
+  password    String
+  token       String?
+  tokenExpiry DateTime?
+  habits      Habit[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Habit {
   id          Int           @id @default(autoincrement())
   title       String
   description String?
+  goal        String?
   frequency   String        // daily, weekly, etc.
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  progressPercent Int      @default(0)
+  streak      Int          @default(0)
+  startDate   DateTime     @default(now())
   userId      Int
   user        User          @relation(fields: [userId], references: [id])
-  category    Category      @relation(fields: [categoryId], references: [id])
-  categoryId  Int
+  categoryId  Int?
+  category    Category?    @relation(fields: [categoryId], references: [id])
   completions Completion[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([categoryId])
 }
 
 model Category {

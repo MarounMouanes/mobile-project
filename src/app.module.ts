@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { HabitsModule } from './habits/habits.module';
 import { CategoriesModule } from './categories/categories.module';
 import { CompletionsModule } from './completions/completions.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CompletionsModule } from './completions/completions.module';
     HabitsModule,
     CategoriesModule,
     CompletionsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

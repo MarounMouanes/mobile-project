@@ -41,6 +41,7 @@ async function main() {
     data: {
       title: 'Drink Water',
       description: 'Drink 8 glasses of water daily',
+      goal: 'Stay hydrated throughout the day',
       frequency: 'daily',
       userId: user.id,
       categoryId: healthCategory.id,
@@ -51,6 +52,7 @@ async function main() {
     data: {
       title: 'Exercise',
       description: 'Exercise for 30 minutes',
+      goal: 'Improve fitness and energy levels',
       frequency: 'daily',
       userId: user.id,
       categoryId: healthCategory.id,
@@ -61,6 +63,7 @@ async function main() {
     data: {
       title: 'Read a Book',
       description: 'Read for 30 minutes',
+      goal: 'Read 12 books this year',
       frequency: 'daily',
       userId: user.id,
       categoryId: productivityCategory.id,
@@ -71,6 +74,7 @@ async function main() {
     data: {
       title: 'Meditate',
       description: 'Meditate for 10 minutes',
+      goal: 'Reduce stress and improve focus',
       frequency: 'daily',
       userId: user.id,
       categoryId: mindfulnessCategory.id,
